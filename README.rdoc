@@ -1,0 +1,49 @@
+blackjack.rb
+
+- Player hand
+- Dealer hand
+- Playing - whether or not the game is being played
+- deck
+- Current gamer --> access required
+
+- Deal
+- hit
+- stand - can close out hand
+- show hands, report hand of player and Dealer
+- set result
+
+
+describe "Dealing cards" do
+
+  before do
+    @blackjack = Blackjack.new SUITS, RANKS
+    @blackjack.deal
+    @player_cards = @blackjack.player_hand.delt_cards
+    @dealer_cards = @blackjack.dealer_hand.delt_cards
+  end
+
+  it 'Should return 2 cards for dealer and player' do
+    expect(@dealer_cards.count).to eq 2
+    expect(@player_cards.count).to eq 2
+  end
+
+  it 'Does not display dealers first card' do
+    expect(@dealer_cards.first.show).to eq false
+  end
+
+  it 'Ends the players turn if player is delt a blackjack' do
+      card1 = Card.new('Hearts', '2')
+      card2 = Card.new('Hearts', '10')
+      card3 = Card.new('Hearts', '3')
+
+      card4 = Card.new('Hearts', 'Ace')
+      card5 = Card.new('Hearts', '4')
+      card6 = Card.new('Hearts', '5')
+
+      @blackjack = Blackjack.new SUITS, RANKS
+      new_deck = [card6, card5, card4, card3, card2, card1]
+      @blackjack.deck.replace_with(new_deck)
+
+      @blackjack.deal
+      expect(@blackjack.current_gamer).to eq('Dealer')
+  end
